@@ -1,0 +1,221 @@
+[
+  {
+    "text": "What do you regard as your strongest source of creative inspiration?",
+    "answers": [
+      "From within (e.g., dreams, meditation, daydreaming)",
+      "From outside (e.g., reading, events, conversation, observations outside)"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "What is the breadth of your creative interests?",
+    "answers": [
+      "My interests are very focused in one area",
+      "My interests broadly span many areas"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "What factors are most significant in motivating your creative work?",
+    "answers": [
+      "Internal (e.g., a need to express myself)",
+      "External (e.g., sense of acheivement, pleasing others, earning a living)"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How easy is it for you to do mediocre work if it seems prudent?",
+    "answers": [
+      "It's easy",
+      "It's extremely difficult"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "Do you tend be more self-critical or more self-assured in your creative work? ",
+    "answers": [
+      "Self-Critical",
+      "Self-Assured"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How do you typically feel while you are creative problem solving or working on a creative project?",
+    "answers": [
+      "Happy / It flows easily",
+      "\"Tortured\" / It's a struggle"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "When a significant risk is involved in my creative endeavors... ",
+    "answers": [
+      "I do what I can to minimize it",
+      "I get excited about the possibilities"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "Are you able to be creative when performing for others?",
+    "answers": [
+      "Happy / It flows easily",
+      "\"Tortured\" / It's a struggle"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How often do you engage in creative collaboration?",
+    "answers": [
+      "I tend to work on solo endeavors",
+      "I often engage in collaborative endeavors"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "On average, how many creative projects do you work on simultaneously?",
+    "answers": [
+      "I prefer one project at a time",
+      "I prefer many projects at once"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How do you feel about the role of constraints in your creative process?",
+    "answers": [
+      "Constraints stifle my creativity",
+      "Constraints stimulate my creativity"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "Broadly speaking, how do you feel about the role of distractions in your creative process?",
+    "answers": [
+      "Love Distractions (e.g. they are a source of new ideas)",
+      "Hate Distractions (e.g. they impede my creative thinking) "
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How much variation is there in the rate at which you do creative work?",
+    "answers": [
+      "My creative work is relatively stable or consistent",
+      "My creative work is highly variable or erratic"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How do you feel about group brainstorming sessions?",
+    "answers": [
+      "I hate them, I'm more creative if I can generate ideas on my own",
+      "I love them, I'm creatively stimulated when brainstorming in real-time with others"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "Compared to others, how rapidly do you tend to generate new ideas or possible solutions?",
+    "answers": [
+      "I need time to let my ideas surface",
+      "I get new ideas by the minute"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How do you envision and implement your creative projects?",
+    "answers": [
+      "I know what I want to achieve and execute a plan",
+      "I follow my intuition and let the vision crystalize as I work"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "To what degree does your creative work involve the element of chance? ",
+    "answers": [
+      "Rarely, I make circumstances happen",
+      "Always, I let circumstances unfold"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "When your initial plans for creative work don't pan out, how quickly do you typically move to Plan B? ",
+    "answers": [
+      "I figure out a way to make Plan A work",
+      "I quickly reframe and move to Plan B"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "If you had to pick one, in which of the following stages of the creative process do you feel most confident? (pick one)",
+    "answers": [
+      "Defining the problem",
+      "Generating lots of ideas or possible solutions",
+      "Picking the winning solutions from the options",
+      "Executing and getting things done",
+      "It Varies"
+    ],
+    "type": "pick-one"
+  },
+  {
+    "text": "How compelled would you be to clean a messy workspace before beginning your creative work?",
+    "answers": [
+      "Not at all, a little mess is comforting",
+      "Extremely, a sharp mind needs a sharp pencil"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "What kind of space is most productive for you when you are working on a creative project? ",
+    "answers": [
+      "Private spaces (e.g., at home, a private office or studio)",
+      "Public spaces (e.g., coffee shops, open workspaces)"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "What noise level is most comfortable for you when you are working on a creative project? ",
+    "answers": [
+      "Total silence or minimal background music or noise",
+      "Loud music or lots of background noise"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "How important do you think physical exercise and/or movement is to being creative in your work?",
+    "answers": [
+      "Unimportant",
+      "Very important"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "I'm most creative if my surroundings and routine are... ",
+    "answers": [
+      "Varied and dynamic",
+      "Consistent and stable"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "text": "If you could choose, what time of day do you prefer to do creative work? (pick one)",
+    "answers": [
+      "Early Morning",
+      "Midday",
+      "Afternoon",
+      "Late Night",
+      "It Varies / No Preference."
+    ],
+    "type": "pick-one-5"
+  },
+  {
+    "text": "How important to your creative process is it that you spend time outdoors in nature? ",
+    "answers": [
+      "Unimportant",
+      "Extremely important"
+    ],
+    "type": "one-to-five"
+  },
+  {
+    "type": "text",
+    "text": "Please type your name",
+    "optional": true
+  }
+]
