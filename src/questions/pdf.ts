@@ -305,7 +305,7 @@ const createPdf = async (data) => {
                       {
                         text: 'Learn More',
                         margin: [figmaXtoPdf(40), 0, 0, 0],
-                        link: 'https://thecreativelandscape.com/' + data.id,
+                        link: 'https://creative-landscape.np.logitech.io/' + data.id,
                         fontSize: figmaXtoPdf(28),
                         font: 'GtAmericaMono',
                         decoration: 'underline',
