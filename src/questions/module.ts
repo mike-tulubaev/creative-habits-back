@@ -20,18 +20,20 @@ export function questionsGet(): any[] {
 export const getResults = async (id: any) => {
     await UserAnswers.sync();
 
-    const allData = await UserAnswers.findAll();
-
     const data = await UserAnswers.findOne({
         where: {
             id: id
         }
     });
     
-    return { 
-        ...JSON.parse(data.answers),
-        id: data.id
-    };
+    if (data && data.answers) {
+        return {
+            ...data.answers,
+            id: data.id
+        }
+    }
+
+    return undefined;
 }
 
 export const submitQuestions = async (respondentData) => {
