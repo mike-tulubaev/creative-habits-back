@@ -28,7 +28,7 @@ export const getResults = async (id: any) => {
     
     if (data && data.answers) {
         return {
-            ...data.answers,
+            ...JSON.parse(data.answers),
             id: data.id
         }
     }
