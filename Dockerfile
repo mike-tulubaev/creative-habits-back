@@ -1,7 +1,7 @@
 FROM amancevice/pandas:1.0.3-alpine
 WORKDIR /app
-RUN apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.12/main/ nodejs=12.21.0-r0 && \
-    apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.12/main/ npm=12.21.0-r0
+RUN apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.12/main/ nodejs=12.22.4-r0 && \
+    apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.12/main/ npm=12.22.4-r0
 COPY ./ /app
 
 RUN set -ex && \
