@@ -17,17 +17,17 @@ const species = {
     titleY: 3233
   },
   'Yolo Chaotis': {
-    text: 'YOLO CHAOTIS is best known for its many, varied, and sometimes wild thickets of bright flowers. A novelty-seeker like Novo Gregarious, this creative species thrives in mountain streams, where the current can carry it to new and changing environments. Unlike Socialis Adventurous, which draws nutrients from its environment, Yolo Chaotis has all it needs to thrive contained within its bulb, and will spread its energy across many new flowers at once, even if conditions aren’t perfect. Since Yolo Chaotis is inwardly-energized, in the right conditions the careful observer may even see a subtle glow emanating from deep inside this special creative species.',
+    text: 'YOLO CHAOTIS is best known for its many, varied, and sometimes wild thickets of bright flowers. A novelty-seeker like Novo Gregarious, this creative species thrives in mountain streams, where the current can carry it to new and changing environments. Unlike Socialis Adventurous, which draws nutrients from its environment, Yolo Chaotis has all it needs to thrive contained within its bulb, and will spread its energy across many new flowers at once, even if conditions aren’t perfect. Since Yolo Chaotis is inwardly-energized, in the right conditions the careful observer may even see a subtle glow emanating from deep inside this special creative species. Individuals who are part of this species have an enviable collection of creative habits, but because their ideas are often novel and unconventional, they risk being misunderstood and dismissed. To give their ideas the best chance of success, Yolo Chaotis should understand that patience and clear communication is necessary to sharing radical creative solutions.',
     scroll_img: __dirname + '/images/yolov_haotis_scroll.png',
     text_img: __dirname + '/images/yolov_haotis_title.svg',
-    width: 2164,
-    height: 3846,
-    x: 670,
-    y: 106,
-    titleWidth: 1861,
-    titleHeight: 618,
-    titleX: 820,
-    titleY: 3232
+    width: 542,
+    height: 962,
+    x: 123,
+    y: 21,
+    titleWidth: 479,
+    titleHeight: 158,
+    titleX: 170,
+    titleY: 780
   },
   'Socialis Adventurous': {
     text: 'SOCIALIS ADVENTUROUS is characterized by its many blooms that take flight to ride air currents in search of new landscapes. A highly-social creative species, Socialis Adventurous is found in habitats dense with others, its roots flowing out to collect a wide range of nutrients, the more the better. Like Yolo Chaotis, Socialis Adeventurous liberally spreads its energy across many blooms at once, knowing that even though not all of them will flourish, those blooms that do, will be strong and vivid. Those who would like to see the best of this creative species will need to rise early, because many Socialis Adventurous prefer to show their brightest colors in the morning.',
@@ -119,9 +119,14 @@ const createPdf = async (data) => {
   const image = await readFile(item.scroll_img);
   const text = await readFile(item.text_img);
 
-  const scale = 10;
-  const figmaXtoPdf = (num) => num / 3600 * scale * 595.28;
-  const figmaYtoPdf = (num) => num / 4800 * scale * 793.71;
+  const pageSize = {
+    width: 792,
+    height: 1224
+  };
+
+  const scale = 1;
+  const figmaXtoPdf = (num) => num / pageSize.width * scale * pageSize.width;
+  const figmaYtoPdf = (num) => num / pageSize.height * scale * pageSize.height;
 
   const clusTopHabits: string[][] = [];
 
@@ -155,25 +160,22 @@ const createPdf = async (data) => {
   });
 
   const docDefinition = {
-    pageSize: {
-      width: scale * 595.28,
-      height: scale * 793.71
-    },
+    pageSize: 'TABLOID',
     background: [
       {
         canvas: [
           {
             type: 'rect',
-            x: 0, y: 0, w: scale * 595.28, h: scale * 793.71,
+            x: 0, y: 0, w: scale * pageSize.width, h: scale * pageSize.height,
             color: '#FFFBF0'
           },
           {
             type: 'rect',
-            x: figmaXtoPdf(100),
-            y: figmaYtoPdf(100),
-            w: scale * 595.28 - 2 * figmaXtoPdf(100),
-            h: scale * 793.71 - 2 * figmaYtoPdf(100),
-            r: figmaXtoPdf(240),
+            x: figmaXtoPdf(15),
+            y: figmaYtoPdf(15),
+            w: scale * pageSize.width - 2 * figmaXtoPdf(15),
+            h: scale * pageSize.height - 2 * figmaYtoPdf(15),
+            r: figmaXtoPdf(20),
             lineWidth: 1,
             lineColor: '#252424'
           }
@@ -198,14 +200,14 @@ const createPdf = async (data) => {
       },
       {
         absolutePosition: {
-          x: figmaXtoPdf(280),
-          y: figmaYtoPdf(3967)
+          x: figmaXtoPdf(47),
+          y: figmaYtoPdf(947)
         },
         stack: [
           {
             layout: 'noBorders',
             table: {
-              widths: [figmaXtoPdf(2938)],
+              widths: [figmaXtoPdf(700)],
               headerRows: 1,
               body: [
                 [
@@ -213,135 +215,138 @@ const createPdf = async (data) => {
                     text: [{
                       text: item.text,
                       font: 'Millionaire',
-                      fontSize: figmaXtoPdf(40),
+                      fontSize: figmaXtoPdf(11),
                       color: '#252424',
-                      lineHeight: 40/54,
+                      fontWeight: 400,
+                      lineHeight: 11/15,
+                      characterSpacing: -0.11
                     }],
                   }
                 ],
               ],
             }
           },
-          {
-            layout: {
-              hLineWidth: function (i, node) {
-                return 0
-              },
-              vLineWidth: function (i, node) {
-                return i === 3 ? 1 : 0;
-              },
-              hLineColor: function (i, node) {
-                return 'black';
-              },
-              vLineColor: function (i, node) {
-                return 'rgba(37,36,36,0.8)';
-              },
-            },
-            absolutePosition: {
-              x: figmaXtoPdf(280),
-              y: figmaYtoPdf(4308),
-            },
-            table: {
-              widths: [figmaXtoPdf(419.7), figmaXtoPdf(419.7), figmaXtoPdf(419.7), figmaXtoPdf(419.7), figmaXtoPdf(419.7), figmaXtoPdf(419.7), figmaXtoPdf(419.7)],
-              headerRows: 1,
-              body: [
-                [
-                  {
-                    stack: [
-                      ...(
-                        ['SUI INSPIRA', 'SOLO NOCTUS'].includes(data.Creative_Species.toUpperCase()) ?
-                          [data.Creative_Species.toUpperCase()] :
-                          data.Creative_Species.toUpperCase().split(' ')
-                      ).map((c: string) => ({
-                        text: c,
-                        font: 'Millionaire',
-                        margin: [figmaXtoPdf(2), figmaYtoPdf(-20), 0, 0],
-                        fontSize: figmaXtoPdf(40),
-                        color: '#252424',
-                      })),
-                      {
-                        text: 'Creative Habits',
-                        fontSize: figmaXtoPdf(40),
-                        margin: [0, figmaYtoPdf(-15), 0, 0],
-                        font: 'Millionaire',
-                        italics: true,
-                        color: '#252424',
-                      }
-                    ]
-                  },
-                  {
-                    stack: (clusTopHabits[0] || []).map(r => ({
-                      text: r,
-                      font: 'GtAmericaMono',
-                      fontSize: figmaXtoPdf(28),
-                      color: '#252424',
-                    }))
-                  },
-                  {
-                    stack: (clusTopHabits[1] || []).map(r => ({
-                      text: r,
-                      font: 'GtAmericaMono',
-                      fontSize: figmaXtoPdf(28),
-                      color: '#252424',
-                    }))
-                  },
-                  {
-                    stack: [
-                      {
-                        text: 'YOUR',
-                        margin: [figmaXtoPdf(42), figmaYtoPdf(-20), 0, 0],
-                        font: 'Millionaire',
-                        fontSize: figmaXtoPdf(40),
-                        color: '#252424',
-                      },
-                      {
-                        text: 'Creative Habits',
-                        margin: [figmaXtoPdf(40), figmaYtoPdf(-15), 0, 0],
-                        fontSize: figmaXtoPdf(40),
-                        font: 'Millionaire',
-                        italics: true,
-                        color: '#252424',
-                      },
-                      {
-                        text: 'Learn More',
-                        margin: [figmaXtoPdf(40), 0, 0, 0],
-                        link: 'https://thecreativelandscape.com/' + data.id,
-                        fontSize: figmaXtoPdf(28),
-                        font: 'GtAmericaMono',
-                        decoration: 'underline',
-                        italics: true,
-                        color: '#252424',
-                      }
-                    ]
-                  },
-                  {
-                    stack: (userTopHabits[0] || []).map(r => ({
-                      text: r,
-                      font: 'GtAmericaMono',
-                      fontSize: figmaXtoPdf(28),
-                      color: '#252424',
-                    }))
-                  },
-                  {
-                    stack: (userTopHabits[1] || []).map(r => ({
-                      text: r,
-                      font: 'GtAmericaMono',
-                      fontSize: figmaXtoPdf(28),
-                      color: '#252424',
-                    }))
-                  },
-                  {
-                    stack: (userTopHabits[2] || []).map(r => ({
-                      text: r,
-                      font: 'GtAmericaMono',
-                      fontSize: figmaXtoPdf(28),
-                      color: '#252424',
-                    }))
-                  },
-                ],
-              ],
-            }
-          }
+          
+          // {
+          //   layout: {
+          //     hLineWidth: function (i, node) {
+          //       return 0
+          //     },
+          //     vLineWidth: function (i, node) {
+          //       return i === 3 ? 1 : 0;
+          //     },
+          //     hLineColor: function (i, node) {
+          //       return 'black';
+          //     },
+          //     vLineColor: function (i, node) {
+          //       return 'rgba(37,36,36,0.8)';
+          //     },
+          //   },
+          //   absolutePosition: {
+          //     x: figmaXtoPdf(47),
+          //     y: figmaYtoPdf(1084),
+          //   },
+          //   table: {
+          //     widths: [figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135)],
+          //     headerRows: 1,
+          //     body: [
+          //       [
+          //         {
+          //           stack: [
+          //             ...(
+          //               ['SUI INSPIRA', 'SOLO NOCTUS'].includes(data.Creative_Species.toUpperCase()) ?
+          //                 [data.Creative_Species.toUpperCase()] :
+          //                 data.Creative_Species.toUpperCase().split(' ')
+          //             ).map((c: string) => ({
+          //               text: c,
+          //               font: 'Millionaire',
+          //               margin: [figmaXtoPdf(2), figmaYtoPdf(-20), 0, 0],
+          //               fontSize: figmaXtoPdf(11),
+          //               color: '#252424',
+          //             })),
+          //             {
+          //               text: 'Creative Habits',
+          //               fontSize: figmaXtoPdf(11),
+          //               margin: [0, figmaYtoPdf(-15), 0, 0],
+          //               font: 'Millionaire',
+          //               italics: true,
+          //               color: '#252424',
+          //             }
+          //           ]
+          //         },
+          //         {
+          //           stack: (clusTopHabits[0] || []).map(r => ({
+          //             text: r,
+          //             font: 'GtAmericaMono',
+          //             fontSize: figmaXtoPdf(8.5),
+          //             color: '#252424',
+          //           }))
+          //         },
+          //         {
+          //           stack: (clusTopHabits[1] || []).map(r => ({
+          //             text: r,
+          //             font: 'GtAmericaMono',
+          //             fontSize: figmaXtoPdf(8.5),
+          //             color: '#252424',
+          //           }))
+          //         },
+          //         {
+          //           stack: [
+          //             {
+          //               text: 'YOUR',
+          //               margin: [figmaXtoPdf(42), figmaYtoPdf(-20), 0, 0],
+          //               font: 'Millionaire',
+          //               fontSize: figmaXtoPdf(11),
+          //               color: '#252424',
+          //             },
+          //             {
+          //               text: 'Creative Habits',
+          //               margin: [figmaXtoPdf(40), figmaYtoPdf(-15), 0, 0],
+          //               fontSize: figmaXtoPdf(11),
+          //               font: 'Millionaire',
+          //               italics: true,
+          //               color: '#252424',
+          //             },
+          //             {
+          //               text: 'Learn More',
+          //               margin: [figmaXtoPdf(40), 0, 0, 0],
+          //               link: 'https://thecreativelandscape.com/' + data.id,
+          //               fontSize: figmaXtoPdf(8.5),
+          //               font: 'GtAmericaMono',
+          //               decoration: 'underline',
+          //               italics: true,
+          //               color: '#252424',
+          //             }
+          //           ]
+          //         },
+          //         {
+          //           stack: (userTopHabits[0] || []).map(r => ({
+          //             text: r,
+          //             font: 'GtAmericaMono',
+          //             fontSize: figmaXtoPdf(8.5),
+          //             color: '#252424',
+          //           }))
+          //         },
+          //         {
+          //           stack: (userTopHabits[1] || []).map(r => ({
+          //             text: r,
+          //             font: 'GtAmericaMono',
+          //             fontSize: figmaXtoPdf(8.5),
+          //             color: '#252424',
+          //           }))
+          //         },
+          //         {
+          //           stack: (userTopHabits[2] || []).map(r => ({
+          //             text: r,
+          //             font: 'GtAmericaMono',
+          //             fontSize: figmaXtoPdf(8.5),
+          //             color: '#252424',
+          //           }))
+          //         },
+          //       ],
+          //     ],
+          //   }
+          // }
         ]
       }
 
