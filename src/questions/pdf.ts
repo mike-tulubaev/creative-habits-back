@@ -1,6 +1,10 @@
-import * as PdfPrinter from 'pdfmake';
+import PdfPrinter from 'pdfmake';
+import { createFigmaHelpers } from './cluster-dd/utils';
+import { createDD } from './cluster-dd/yolo-chaotis';
 const fs = require('fs');
 const util = require('util');
+
+const WEBSITE = 'https://thecreativelandscape.com/';
 
 const species = {
   'Mono Routinus': {
@@ -104,7 +108,7 @@ const fonts = {
     bolditalics: __dirname + '/fonts/gt_america_mono/GT-America-Mono-Regular.ttf'
   },
   Millionaire: {
-    normal: __dirname + '/fonts/millionaire/millionaire_roman-webfont.ttf',
+    normal: __dirname + '/fonts/millionaire/Millionaire-Roman.ttf',
     bold: __dirname + '/fonts/millionaire/millionaire_roman-webfont.ttf',
     italics: __dirname + '/fonts/millionaire/millionaire_italic-webfont.ttf',
     bolditalics: __dirname + '/fonts/millionaire/millionaire_roman-webfont.ttf'
@@ -115,9 +119,7 @@ const createPdf = async (data) => {
   const printer = new PdfPrinter(fonts);
   const item = species[data.Creative_Species];
 
-  const readFile = util.promisify(fs.readFile);
-  const image = await readFile(item.scroll_img);
-  const text = await readFile(item.text_img);
+  console.log('data!', data);
 
   const pageSize = {
     width: 792,
@@ -158,214 +160,13 @@ const createPdf = async (data) => {
       currentIndex++;
     }
   });
+  
+  const helpers = createFigmaHelpers(pageSize, scale);
 
-  const docDefinition = {
-    pageSize: 'TABLOID',
-    background: [
-      {
-        canvas: [
-          {
-            type: 'rect',
-            x: 0, y: 0, w: scale * pageSize.width, h: scale * pageSize.height,
-            color: '#FFFBF0'
-          },
-          {
-            type: 'rect',
-            x: figmaXtoPdf(15),
-            y: figmaYtoPdf(15),
-            w: scale * pageSize.width - 2 * figmaXtoPdf(15),
-            h: scale * pageSize.height - 2 * figmaYtoPdf(15),
-            r: figmaXtoPdf(20),
-            lineWidth: 1,
-            lineColor: '#252424'
-          }
-        ]
-      },
-      {
-        image: 'cluster', //svg: image.toString(),
-        width: figmaXtoPdf(item.width),
-        height: figmaYtoPdf(item.height),
-        absolutePosition: { x: figmaXtoPdf(item.x), y: figmaYtoPdf(item.y) }
-      },
-    ],
-    content: [
-      {
-        svg: text.toString(),
-        width: figmaXtoPdf(item.titleWidth),
-        height: figmaYtoPdf(item.titleHeight),
-        absolutePosition: {
-          x: figmaXtoPdf(item.titleX),
-          y: figmaYtoPdf(item.titleY)
-        }
-      },
-      {
-        absolutePosition: {
-          x: figmaXtoPdf(47),
-          y: figmaYtoPdf(947)
-        },
-        stack: [
-          {
-            layout: 'noBorders',
-            table: {
-              widths: [figmaXtoPdf(700)],
-              headerRows: 1,
-              body: [
-                [
-                  {
-                    text: [{
-                      text: item.text,
-                      font: 'Millionaire',
-                      fontSize: figmaXtoPdf(11),
-                      color: '#252424',
-                      fontWeight: 400,
-                      lineHeight: 11/15,
-                      characterSpacing: -0.11
-                    }],
-                  }
-                ],
-              ],
-            }
-          },
-          
-          // {
-          //   layout: {
-          //     hLineWidth: function (i, node) {
-          //       return 0
-          //     },
-          //     vLineWidth: function (i, node) {
-          //       return i === 3 ? 1 : 0;
-          //     },
-          //     hLineColor: function (i, node) {
-          //       return 'black';
-          //     },
-          //     vLineColor: function (i, node) {
-          //       return 'rgba(37,36,36,0.8)';
-          //     },
-          //   },
-          //   absolutePosition: {
-          //     x: figmaXtoPdf(47),
-          //     y: figmaYtoPdf(1084),
-          //   },
-          //   table: {
-          //     widths: [figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135)],
-          //     headerRows: 1,
-          //     body: [
-          //       [
-          //         {
-          //           stack: [
-          //             ...(
-          //               ['SUI INSPIRA', 'SOLO NOCTUS'].includes(data.Creative_Species.toUpperCase()) ?
-          //                 [data.Creative_Species.toUpperCase()] :
-          //                 data.Creative_Species.toUpperCase().split(' ')
-          //             ).map((c: string) => ({
-          //               text: c,
-          //               font: 'Millionaire',
-          //               margin: [figmaXtoPdf(2), figmaYtoPdf(-20), 0, 0],
-          //               fontSize: figmaXtoPdf(11),
-          //               color: '#252424',
-          //             })),
-          //             {
-          //               text: 'Creative Habits',
-          //               fontSize: figmaXtoPdf(11),
-          //               margin: [0, figmaYtoPdf(-15), 0, 0],
-          //               font: 'Millionaire',
-          //               italics: true,
-          //               color: '#252424',
-          //             }
-          //           ]
-          //         },
-          //         {
-          //           stack: (clusTopHabits[0] || []).map(r => ({
-          //             text: r,
-          //             font: 'GtAmericaMono',
-          //             fontSize: figmaXtoPdf(8.5),
-          //             color: '#252424',
-          //           }))
-          //         },
-          //         {
-          //           stack: (clusTopHabits[1] || []).map(r => ({
-          //             text: r,
-          //             font: 'GtAmericaMono',
-          //             fontSize: figmaXtoPdf(8.5),
-          //             color: '#252424',
-          //           }))
-          //         },
-          //         {
-          //           stack: [
-          //             {
-          //               text: 'YOUR',
-          //               margin: [figmaXtoPdf(42), figmaYtoPdf(-20), 0, 0],
-          //               font: 'Millionaire',
-          //               fontSize: figmaXtoPdf(11),
-          //               color: '#252424',
-          //             },
-          //             {
-          //               text: 'Creative Habits',
-          //               margin: [figmaXtoPdf(40), figmaYtoPdf(-15), 0, 0],
-          //               fontSize: figmaXtoPdf(11),
-          //               font: 'Millionaire',
-          //               italics: true,
-          //               color: '#252424',
-          //             },
-          //             {
-          //               text: 'Learn More',
-          //               margin: [figmaXtoPdf(40), 0, 0, 0],
-          //               link: 'https://thecreativelandscape.com/' + data.id,
-          //               fontSize: figmaXtoPdf(8.5),
-          //               font: 'GtAmericaMono',
-          //               decoration: 'underline',
-          //               italics: true,
-          //               color: '#252424',
-          //             }
-          //           ]
-          //         },
-          //         {
-          //           stack: (userTopHabits[0] || []).map(r => ({
-          //             text: r,
-          //             font: 'GtAmericaMono',
-          //             fontSize: figmaXtoPdf(8.5),
-          //             color: '#252424',
-          //           }))
-          //         },
-          //         {
-          //           stack: (userTopHabits[1] || []).map(r => ({
-          //             text: r,
-          //             font: 'GtAmericaMono',
-          //             fontSize: figmaXtoPdf(8.5),
-          //             color: '#252424',
-          //           }))
-          //         },
-          //         {
-          //           stack: (userTopHabits[2] || []).map(r => ({
-          //             text: r,
-          //             font: 'GtAmericaMono',
-          //             fontSize: figmaXtoPdf(8.5),
-          //             color: '#252424',
-          //           }))
-          //         },
-          //       ],
-          //     ],
-          //   }
-          // }
-        ]
-      }
-
-      // getGtContent('First paragraph'),
-      // getGtContent('Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'),
-    ],
-    styles: {
-      tableText: {
-        margin: [figmaXtoPdf(316), figmaYtoPdf(3967)]
-      },
-      tableHabits: {
-        margin: [figmaXtoPdf(316), figmaYtoPdf(4000)]
-      }
-    },
-    images: {
-      cluster: 'data:image/png;base64,' + image.toString('base64')
-    }
-  };
-
+  const docDefinition = await createDD(WEBSITE, helpers, {
+    percentage: Math.round(data['Yolo Chaotis_percent']),
+    habits: []
+  });
 
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
 

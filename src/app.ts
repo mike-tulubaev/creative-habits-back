@@ -1,9 +1,9 @@
-import * as express from "express";
-import { Application, NextFunction, Response, Request } from "express";
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
-import * as api from "./api";
+import express, { Application, NextFunction, Response, Request } from "express";
+import { api } from "./api";
 import { initializeDatabase } from "./database/database";
+import cors from 'cors';
+import bodyParser from 'body-parser';
+
 require('dotenv').config();
 
 initializeDatabase();

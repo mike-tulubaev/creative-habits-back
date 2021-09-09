@@ -7,7 +7,7 @@ const router: Router = Router();
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
     try {
         res.status(200).send(questionsGet());
-    } catch (error) {
+    } catch (error: any) {
         next(new APIError(error.message));
     }
 });
@@ -18,7 +18,7 @@ router.get("/download/:id", async (req: Request, res: Response, next: NextFuncti
         const pdf = await createPdf(answers);
 
         res.contentType('application/pdf').send(pdf);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         next(new APIError(error.message));
     }
@@ -29,7 +29,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
         const answers = await getResults(req.params.id);
 
         res.status(200).send(answers);
-    } catch (error) {
+    } catch (error: any) {
         next(new APIError(error.message));
     }
 });
@@ -42,9 +42,9 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
         } else {
             res.status(200).send(questionsResult);
         }
-    } catch (error) {
+    } catch (error: any) {
         next(new APIError(error.message));
     }
 });
 
-export = router;
+export const questionRouter = router;
