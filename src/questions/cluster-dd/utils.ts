@@ -6,6 +6,7 @@ export type FigmaHelpers = {
 };
 
 export type UserInfo = {
+  id: string,
   percentage: number,
   habits: Array<{
     type: 'cluster',

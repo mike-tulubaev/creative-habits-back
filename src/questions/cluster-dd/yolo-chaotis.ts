@@ -24,8 +24,31 @@ export const createDD = async (website: string, helpers: FigmaHelpers, userInfo:
   const readFile = util.promisify(fs.readFile);
   const image = await readFile(clusterItem.scroll_img);
   const text = await readFile(clusterItem.text_img);
+
+  const sharedHabits = userInfo.habits.filter(x => x.type === 'cluster');
+  const userHabits = userInfo.habits.filter(x => x.type === 'user');
+
+  const habits = [...sharedHabits, ...userHabits];
+  const habitsCols = habits.reduce<Array<typeof habits>>((acc, cv) => {
+    if (acc[acc.length - 1].length > 7) {
+      acc.push([]);
+    }
+
+    acc[acc.length - 1].push(cv);
+    return acc;
+  }, [[]]);
+
+  const getHabitsColumn = (index: number): typeof habits => {
+    if (habitsCols.length < index + 1) {
+      return [];
+    }
+
+    return habitsCols[index];
+  }
+
   return {
     pageSize: 'TABLOID',
+    pageMargins: [40, 60, 40, 20],
     background: [
       {
         canvas: [
@@ -42,6 +65,24 @@ export const createDD = async (website: string, helpers: FigmaHelpers, userInfo:
             h: totalHeight() - 2 * figmaYtoPdf(15),
             r: figmaXtoPdf(20),
             lineWidth: 1,
+            lineColor: '#252424'
+          },
+          {
+            x: figmaXtoPdf(608),
+            y: figmaYtoPdf(1092),
+            type: 'ellipse',
+            color: '#252424',
+            r1: 2, r2: 2
+          },
+          {
+            x: figmaXtoPdf(612),
+            y: figmaYtoPdf(1161),
+            w: figmaXtoPdf(141),
+            h: figmaYtoPdf(32),
+            r: figmaXtoPdf(20),
+            type: 'rect',
+            color: '#FFFBF0',
+            lineWidth: 0.5,
             lineColor: '#252424'
           }
         ]
@@ -90,14 +131,18 @@ export const createDD = async (website: string, helpers: FigmaHelpers, userInfo:
               ],
             }
           },
-          
+          // FIRST COLUMN
           {
             layout: {
-              hLineWidth: function (i, node) {
-                return i == 1 ? 0.5 : 0;
+              hLineWidth: function (i) {
+                if (i === 1) {
+                  return 0.5;
+                }
+                
+                return 0;
               },
               vLineWidth: function (i, node) {
-                return i === 3 ? 1 : 0;
+                return 0;
               },
               hLineColor: function (i, node) {
                 return 'rgba(37,36,36,0.8)';
@@ -111,8 +156,7 @@ export const createDD = async (website: string, helpers: FigmaHelpers, userInfo:
               y: figmaYtoPdf(1084),
             },
             table: {
-              widths: [figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135), figmaXtoPdf(135)],
-              headerRows: 1,
+              widths: [figmaXtoPdf(120)],
               body: [
                 [
                   {
@@ -121,42 +165,219 @@ export const createDD = async (website: string, helpers: FigmaHelpers, userInfo:
                     fontSize: figmaXtoPdf(11),
                     color: '#252424',
                     fontWeight: 400,
-                    lineHeight: 12/11
+                    lineHeight: 12/11,
+                    headlineLevel: 7,
+                    
                   },
                 ],
                 [
                   {
+                    table: {
+                      widths: [figmaXtoPdf(103)],
+                      body: [
+                        [
+                          {
+                            text: `${userInfo.percentage}% of Yolo Chaotis's creative habits overlap with yours`,
+                            font: 'GtAmericaMono',
+                            italics: true,
+                            fontSize: figmaXtoPdf(8.5),
+                            color: '#252424',
+                            fontWeight: 300,
+                          }
+                        ],
+                      ]
+                    },
                     layout: {
                       hLineWidth: function (i, node) {
                         return 0
                       },
                       vLineWidth: function (i, node) {
                         return 0
-                      },
+                      }
                     },
-                    table: {
-                      widths: [figmaXtoPdf(103)],
-                      body: [
-                        [{
-                          text: `${userInfo.percentage}% of Yolo Chaotis's creative habits overlap with yours`,
-                          font: 'GtAmericaMono',
-                          italics: true,
-                          fontSize: figmaXtoPdf(8.5),
-                          color: '#252424',
-                          fontWeight: 300,
-                        },]
-                      ]
-                    }
-                  }
+                  },
                 ]
               ]
             }
-          }
-        ]
-      }
+          },
+          // FIRST COLUMN END
+          // SECOND COLUMN
+          {
+            layout: {
+              hLineWidth: function (i) {
+                if (i === 1) {
+                  return 0.5;
+                }
+                
+                return 0;
+              },
+              vLineWidth: function (i, node) {
+                return 0;
+              },
+              hLineColor: function (i, node) {
+                return 'rgba(37,36,36,0.8)';
+              },
+              vLineColor: function (i, node) {
+                return 'rgba(37,36,36,0.8)';
+              },
+            },
+            absolutePosition: {
+              x: figmaXtoPdf(188),
+              y: figmaYtoPdf(1084),
+            },
+            table: {
+              widths: [figmaXtoPdf(557)],
+              body: [
+                [
+                  {
+                    text: 'Your Creative Habits',
+                    font: 'Millionaire',
+                    fontSize: figmaXtoPdf(11),
+                    color: '#252424',
+                    fontWeight: 400,
+                    lineHeight: 12/11,
+                    headlineLevel: 7,
+                  },
+                ],
+                [
+                  {
+                    table: {
+                      widths: ['*', '*', '*', '*'],
+                      body: [
+                        [
+                          {
+                            absolutePosition: {
+                              x: figmaXtoPdf(182),
+                              y: figmaYtoPdf(1107),
+                            },
+                            ul: [...getHabitsColumn(0).map(s => 
+                              ({
+                                text: s,
+                                font: 'GtAmericaMono',
+                                italics: true,
+                                fontSize: figmaXtoPdf(8.5),
+                                color: '#252424',
+                                fontWeight: 300,
+                                listType: s.type === 'cluster' ? undefined : 'none'
+                              }))
+                            ],
+                            font: 'Millionaire',
+                          },
+                          {
+                            absolutePosition: {
+                              x: figmaXtoPdf(327),
+                              y: figmaYtoPdf(1107),
+                            },
+                            ul: [...getHabitsColumn(1).map(s => 
+                              ({
+                                text: s,
+                                font: 'GtAmericaMono',
+                                italics: true,
+                                fontSize: figmaXtoPdf(8.5),
+                                color: '#252424',
+                                fontWeight: 300,
+                                listType: s.type === 'cluster' ? undefined : 'none'
+                              }))
+                            ],
+                            font: 'Millionaire',
+                          },
+                          {
+                            absolutePosition: {
+                              x: figmaXtoPdf(468),
+                              y: figmaYtoPdf(1107),
+                            },
+                            ul: [...getHabitsColumn(2).map(s => 
+                              ({
+                                text: s,
+                                font: 'GtAmericaMono',
+                                italics: true,
+                                fontSize: figmaXtoPdf(8.5),
+                                color: '#252424',
+                                fontWeight: 300,
+                                listType: s.type === 'cluster' ? undefined : 'none'
+                              }))
+                            ],
+                            font: 'Millionaire',
+                          },
+                          {
+                            absolutePosition: {
+                              x: figmaXtoPdf(610),
+                              y: figmaYtoPdf(1107),
+                            },
+                            ul: [...getHabitsColumn(3).map(s => 
+                              ({
+                                text: s,
+                                font: 'GtAmericaMono',
+                                italics: true,
+                                fontSize: figmaXtoPdf(8.5),
+                                color: '#252424',
+                                fontWeight: 300,
+                                listType: s.type === 'cluster' ? undefined : 'none'
+                              }))
+                            ],
+                            font: 'Millionaire',
+                          },
+                        ],
+                      ]
+                    },
+                    layout: {
+                      hLineWidth: function (i, node) {
+                        return 0
+                      },
+                      vLineWidth: function (i, node) {
+                        return 0
+                      }
+                    },
+                  },
+                ]
+              ]
+            }
+          },
 
-      // getGtContent('First paragraph'),
-      // getGtContent('Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'),
+          // END OF SECOND COLUMN
+          // Shared habits note
+          {
+            absolutePosition: {
+              x: figmaXtoPdf(556),
+              y: figmaYtoPdf(1087)
+            },
+            text: 'Habits with  are shared with Yolo Chaotis',
+            font: 'GtAmericaMono',
+            italics: true,
+            fontSize: figmaXtoPdf(7),
+          },
+          // END OF SHARED HABITS NOTE
+          // RESULTS BUTTON
+          {
+            absolutePosition: {
+              x: figmaXtoPdf(620),
+              y: figmaYtoPdf(1163)
+            },
+            width: figmaXtoPdf(97),
+            height: figmaYtoPdf(29),
+            alignment: 'center',
+            text: 'return to',
+            font: 'Millionaire',
+            fontSize: figmaXtoPdf(8),
+            link: website + userInfo.id, 
+          },
+          {
+            absolutePosition: {
+              x: figmaXtoPdf(620),
+              y: figmaYtoPdf(1176)
+            },
+            width: figmaXtoPdf(97),
+            height: figmaYtoPdf(29),
+            alignment: 'center',
+            text: 'MY RESULTS',
+            font: 'Millionaire',
+            fontSize: figmaXtoPdf(11),
+            link: website + userInfo.id, 
+          },
+          // END OF RESULTS BUTTON
+        ],
+      
+      }
     ],
     styles: {
       tableText: {

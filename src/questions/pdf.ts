@@ -164,8 +164,18 @@ const createPdf = async (data) => {
   const helpers = createFigmaHelpers(pageSize, scale);
 
   const docDefinition = await createDD(WEBSITE, helpers, {
+    id: data.id,
     percentage: Math.round(data['Yolo Chaotis_percent']),
-    habits: []
+    habits: [
+      ...data['Habits_Clus_shared'].map((d) => ({
+        type: 'cluster',
+        text: d
+      })),
+      ...data['Habits_unique'].map((d) => ({
+        type: 'user',
+        text: d
+      }))
+    ]
   });
 
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
