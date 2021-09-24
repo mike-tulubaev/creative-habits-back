@@ -52,7 +52,7 @@ const createPdf = async (data) => {
 
   const docDefinition = await createDD(WEBSITE, helpers, {
     id: data.id,
-    percentage: Math.round(data[`${data.Creative_Species}_percent`]),
+    percentage: Math.round(data.Cluster_Affinity * 100),
     habits: [
       ...data['Habits_Clus_shared'].map((d) => ({
         type: 'cluster',
